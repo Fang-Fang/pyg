@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置solrServier-->
+    <bean id="solrServier" class="org.apache.solr.client.solrj.impl.CloudSolrServer">
+        <!--指定zookeeper的集群服务器信息-->
+        <constructor-arg name="zkHost" value="192.168.12.168:3181,192.168.12.168:3182,192.168.12.168:3183"/>
+        <!--指定collection名称-->
+        <property name="defaultCollection" value="pinyougou"/>
+    </bean>
+
+    <!--配置solrTemplate-->
+    <bean id="solrTemplate" class="org.springframework.data.solr.core.SolrTemplate">
+        <constructor-arg name="solrServer" ref="solrServier"/>
+    </bean>
+</beans>

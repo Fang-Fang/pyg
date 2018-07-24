@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angularJS测试</title>
+    <script src="js/angular.min.js"></script>
+    <script type="text/javascript">
+
+        //定义并获取模块；参数1：模块的名称，参数2：需要加载其它的模块时候指定名称，不可以删除，如果删除了则说明是获取模块
+        var app = angular.module("app", []);
+
+        //配置controller 参数1：名称，参数2；控制器的内容
+        // $scope是上下文，可以设置变量与页面中的model进行双向绑定
+        app.controller("myController", function ($scope) {
+
+           $scope.list = [1,2,3,4,5];
+
+           //定义自定义对象的集合
+            $scope.persons = [
+                {"id":1,"name":"黑马1","age":10},
+                {"id":2,"name":"黑马2","age":11},
+                {"id":3,"name":"黑马3","age":12}
+            ];
+        });
+
+    </script>
+</head>
+<body ng-app="app" ng-controller="myController">
+简单数值集合遍历：<br>
+<div ng-repeat="num in list">
+    {{num}}
+    <br>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <td>id</td>
+            <td>名称</td>
+            <td>年龄</td>
+        </tr>
+    </thead>
+    <tr ng-repeat="p in persons">
+        <td>{{p.id}}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.age}}</td>
+    </tr>
+</table>
+<br>
+</body>
+</html>

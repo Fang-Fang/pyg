@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angularJS测试</title>
+    <script src="js/angular.min.js"></script>
+    <script type="text/javascript">
+
+        //定义并获取模块；参数1：模块的名称，参数2：需要加载其它的模块时候指定名称，不可以删除，如果删除了则说明是获取模块
+        var app = angular.module("app", []);
+
+        //配置controller 参数1：名称，参数2；控制器的内容
+        // $scope是上下文，可以设置变量与页面中的model进行双向绑定
+        app.controller("myController", function ($scope) {
+
+            //如下定义的方法可以在{{}}直接调用
+            $scope.z = 0;
+            $scope.add = function () {
+
+                $scope.z = parseInt($scope.x) + parseInt($scope.y);
+            };
+        });
+
+    </script>
+</head>
+<body ng-app="app" ng-controller="myController">
+x：<input ng-model="x"><br>
+y：<input ng-model="y"><br>
+<button ng-click="add()">点击计算</button><br>
+x + y ={{z}}
+</body>
+</html>

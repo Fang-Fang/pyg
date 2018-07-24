@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--加载配置文件-->
+    <context:property-placeholder location="classpath:properties/*.properties"/>
+
+    <!--配置poolConfig-->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+    </bean>
+
+    <!--配置clusterConfig-->
+    <bean id="clusterConfig" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+        <property name="clusterNodes">
+            <set>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="${redis.cluster.node1.host}"/>
+                    <constructor-arg name="port" value="${redis.cluster.node1.port}"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="${redis.cluster.node2.host}"/>
+                    <constructor-arg name="port" value="${redis.cluster.node2.port}"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="${redis.cluster.node3.host}"/>
+                    <constructor-arg name="port" value="${redis.cluster.node3.port}"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="${redis.cluster.node4.host}"/>
+                    <constructor-arg name="port" value="${redis.cluster.node4.port}"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="${redis.cluster.node5.host}"/>
+                    <constructor-arg name="port" value="${redis.cluster.node5.port}"/>
+                </bean>
+                <bean class="org.springframework.data.redis.connection.RedisClusterNode">
+                    <constructor-arg name="host" value="${redis.cluster.node6.host}"/>
+                    <constructor-arg name="port" value="${redis.cluster.node6.port}"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <!--配置connectionFactory-->
+    <bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="clusterConfig" ref="clusterConfig"/>
+        <constructor-arg name="poolConfig" ref="poolConfig"/>
+    </bean>
+
+    <!--配置redisTemplate-->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="redisConnectionFactory"/>
+    </bean>
+
+
+</beans>
